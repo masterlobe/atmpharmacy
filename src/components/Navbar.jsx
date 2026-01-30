@@ -24,12 +24,12 @@ const Navbar = () => {
     <nav className="w-full flex items-center px-8 py-2 font-inter relative">
       {/* Left: Logo */}
       <div className="flex-shrink-0">
-        <img src={logo} alt="Logo" className="w-24" />
+        <img src={logo} alt="Logo" className="w-16 " />
       </div>
 
       {/* Center: Navigation links */}
       <div className="flex-1 hidden lg:flex justify-center">
-        <ul className="flex gap-24 text-xl  tracking-tight">
+        <ul className="flex gap-24 text-xl  tracking-tight font-light">
           <li className="cursor-pointer hover:text-gray-600">Home</li>
           <li className="cursor-pointer hover:text-gray-600">Catalogue</li>
           <li className="cursor-pointer hover:text-gray-600">About Us</li>
