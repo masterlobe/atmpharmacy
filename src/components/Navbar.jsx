@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import logo from '../assets/images/logo.png'
-const Navbar = () => {
+const Navbar = (props) => {
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -20,7 +22,7 @@ const Navbar = () => {
     }
   }, [open])
   return (
-    <div className="relative">
+    <div className="relative ">
     <nav className="w-full flex items-center px-8 py-2 font-inter relative">
       {/* Left: Logo */}
       <div className="shrink-0">
@@ -30,10 +32,10 @@ const Navbar = () => {
       {/* Center: Navigation links */}
       <div className="flex-1 hidden lg:flex justify-center">
         <ul className="flex gap-24 text-lg  tracking-tight font-light">
-          <li className="cursor-pointer hover:text-gray-600">Home</li>
-          <li className="cursor-pointer hover:text-gray-600">Catalogue</li>
-          <li className="cursor-pointer hover:text-gray-600">About Us</li>
-          <li className="cursor-pointer hover:text-gray-600">Contact Us</li>
+          <li onClick={() => navigate('/')} className="cursor-pointer hover:text-gray-600">Home</li>
+          <li onClick={() => navigate('/catalogue')} className="cursor-pointer hover:text-gray-600">Catalogue</li>
+          <li onClick={() => navigate('/about')} className="cursor-pointer hover:text-gray-600">About Us</li>
+          <li onClick={() => navigate('/contact')} className="cursor-pointer hover:text-gray-600">Contact Us</li>
         </ul>
       </div>
 
@@ -57,10 +59,10 @@ const Navbar = () => {
         className="absolute top-full left-0 w-full bg-white shadow-md lg:hidden z-50"
       >
         <ul className="flex flex-col items-center gap-6 py-6 text-lg">
-          <li className="cursor-pointer hover:text-gray-600">Home</li>
-          <li className="cursor-pointer hover:text-gray-600">Catalogue</li>
-          <li className="cursor-pointer hover:text-gray-600">About Us</li>
-          <li className="cursor-pointer hover:text-gray-600">Contact Us</li>
+          <li onClick={() => { navigate('/'); setOpen(false) }} className="cursor-pointer hover:text-gray-600">Home</li>
+          <li onClick={() => { navigate('/catalogue'); setOpen(false) }} className="cursor-pointer hover:text-gray-600">Catalogue</li>
+          <li onClick={() => { navigate('/about'); setOpen(false) }} className="cursor-pointer hover:text-gray-600">About Us</li>
+          <li onClick={() => { navigate('/contact'); setOpen(false) }} className="cursor-pointer hover:text-gray-600">Contact Us</li>
         </ul>
       </div>
     )}
