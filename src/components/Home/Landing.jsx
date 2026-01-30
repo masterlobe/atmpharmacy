@@ -8,7 +8,7 @@ const Landing = () => {
       <div className="landing flex-1 z-0 flex  flex-col lg:flex-row items-center bg-white px-8 sm:px-10 md:px-12 lg:px-16 relative overflow-visible">
         {/* Left content */}
         {/* change this to fix position */}
-        <div className="w-full lg:w-full z-10 text-center lg:text-left relative translate-y-0 md:translate-y-100 lg:-translate-y-32 flex flex-col items-center lg:items-start">
+        <div className="w-full lg:w-full z-10 text-center lg:text-left relative translate-y-0 md:translate-y-100 lg:-translate-y-24 flex flex-col items-center lg:items-start">
           <div className="inline-block mb-6 px-6 py-3 rounded-full bg-blue-100 text-blue-700 text-sm md:text-sm lg:text-md font-medium">
             Focused on long-term healthcare partnerships
           </div>
