@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const subject = encodeURIComponent("New Contact Enquiry");
+    const body = encodeURIComponent(`
+First Name: ${formData.firstName}
+Last Name: ${formData.lastName}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+    `);
+
+    window.location.href = `mailto:aayushshah12311@gmail.com?subject=${subject}&body=${body}`;
+  };
   return (
     <motion.section
       initial={{ opacity: 0, y: 60 }}
@@ -85,13 +111,15 @@ const Contact = () => {
 
           {/* Right Form */}
           <div className="bg-white p-12">
-            <form className="space-y-8">
+            <form className="space-y-8" onSubmit={handleSubmit}>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <label className="block mb-2 font-medium">First Name</label>
                   <input
                     type="text"
+                    value={formData.firstName}
+                    onChange={(e) => handleChange("firstName", e.target.value)}
                     className="w-full rounded-full border px-6 py-3 shadow focus:outline-none"
                   />
                 </div>
@@ -100,6 +128,8 @@ const Contact = () => {
                   <label className="block mb-2 font-medium">Last Name</label>
                   <input
                     type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleChange("lastName", e.target.value)}
                     className="w-full rounded-full border px-6 py-3 shadow focus:outline-none"
                   />
                 </div>
@@ -109,6 +139,8 @@ const Contact = () => {
                 <label className="block mb-2 font-medium">Email</label>
                 <input
                   type="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
                   className="w-full rounded-full border px-6 py-3 shadow focus:outline-none"
                 />
               </div>
@@ -117,6 +149,8 @@ const Contact = () => {
                 <label className="block mb-2 font-medium">Message</label>
                 <textarea
                   rows="6"
+                  value={formData.message}
+                  onChange={(e) => handleChange("message", e.target.value)}
                   className="w-full rounded-2xl border px-6 py-4 shadow focus:outline-none resize-none"
                 ></textarea>
               </div>
