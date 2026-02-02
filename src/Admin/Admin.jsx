@@ -217,7 +217,7 @@ export default function Admin() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5500/product/all");
+      const res = await fetch("https://atmpharmacybackend.onrender.com/product/all");
       const data = await res.json();
 
       if (data.success) {
@@ -242,7 +242,7 @@ export default function Admin() {
 
     try {
       const res = await fetch(
-        `http://localhost:5500/product/delete/${id}`,
+        `https://atmpharmacybackend.onrender.com/product/delete/${id}`,
         { method: "DELETE" }
       );
 
@@ -582,7 +582,7 @@ export default function Admin() {
               console.log("📦 Sending FormData:");
               console.log([...formData.entries()]);
 
-              const res = await fetch("http://localhost:5500/product/add", {
+              const res = await fetch("https://atmpharmacybackend.onrender.com/product/add", {
                 method: "POST",
                 body: formData
                 // ⚠️ DO NOT set Content-Type manually
@@ -1006,7 +1006,7 @@ export default function Admin() {
                     }
 
                     const res = await fetch(
-                      `http://localhost:5500/product/update/${editProduct._id}`,
+                      `https://atmpharmacybackend.onrender.com/product/update/${editProduct._id}`,
                       {
                         method: "PATCH",
                         body: formData

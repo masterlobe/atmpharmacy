@@ -11,7 +11,7 @@ const Catalogue = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5500/product/all");
+      const res = await fetch("https://atmpharmacybackend.onrender.com/product/all");
       const data = await res.json();
 
       if (res.ok) {
