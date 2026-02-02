@@ -188,31 +188,31 @@ export default function Admin() {
     return formData;
   };
 
-  // Helper: Build backend-ready JS object payload
-  const _buildBackendPayload = () => {
-    const inputs = document.querySelectorAll("input");
-    const selects = document.querySelectorAll("select");
+  // // Helper: Build backend-ready JS object payload
+  // const _buildBackendPayload = () => {
+  //   const inputs = document.querySelectorAll("input");
+  //   const selects = document.querySelectorAll("select");
 
-    const payload = {
-      brandName: inputs[0]?.value || "",
-      genericName: inputs[1]?.value || "",
-      packaging: inputs[2]?.value || "",
+  //   const payload = {
+  //     brandName: inputs[0]?.value || "",
+  //     genericName: inputs[1]?.value || "",
+  //     packaging: inputs[2]?.value || "",
 
-      productType: selects[0]?.value || "",
-      formType: selects[1]?.value || "",
-      genericType: selects[2]?.value || "",
-      availability: selects[3]?.value || "",
+  //     productType: selects[0]?.value || "",
+  //     formType: selects[1]?.value || "",
+  //     genericType: selects[2]?.value || "",
+  //     availability: selects[3]?.value || "",
 
-      category,
-      composition,
-      uses,
-      highlights,
+  //     category,
+  //     composition,
+  //     uses,
+  //     highlights,
 
-      image: imageFile || null
-    };
+  //     image: imageFile || null
+  //   };
 
-    return payload;
-  };
+  //   return payload;
+  // };
 
   const fetchProducts = async () => {
     try {
