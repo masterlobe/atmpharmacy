@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Box from "./Box";
 
 const Catalogue = () => {
-  const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -16,7 +15,6 @@ const Catalogue = () => {
 
       if (res.ok) {
         setAllProducts(data.data || []);
-        setProducts(data.data || []);
         localStorage.setItem("allProducts", JSON.stringify(data.data || []));
       } else {
         console.error("Failed to fetch products", data);

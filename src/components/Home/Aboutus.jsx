@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import colorlogo from '../../assets/images/colorlogo.png'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Aboutus = () => {
   const Navigate = useNavigate()

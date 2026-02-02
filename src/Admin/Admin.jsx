@@ -189,7 +189,7 @@ export default function Admin() {
   };
 
   // Helper: Build backend-ready JS object payload
-  const buildBackendPayload = () => {
+  const _buildBackendPayload = () => {
     const inputs = document.querySelectorAll("input");
     const selects = document.querySelectorAll("select");
 
@@ -936,6 +936,7 @@ export default function Admin() {
                   <img
                     src={editImagePreview}
                     className="h-40 w-full object-cover rounded-lg mb-2"
+                    alt=""
                   />
                   <div className="flex gap-2">
                     <label className="cursor-pointer rounded bg-blue-500 px-3 py-1 text-white text-sm">
