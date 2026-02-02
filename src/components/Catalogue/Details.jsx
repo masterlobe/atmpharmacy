@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import medicine1 from '../../assets/images/colorlogo.png';
 import Navbar from "../Navbar";
@@ -7,20 +7,21 @@ import Footer from "../Home/Footer";
 
 const Details = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPopup, setShowPopup] = useState(false);
   const [product, setProduct] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   useEffect(() => {
-    const product = localStorage.getItem("selectedProduct");
-    console.log("Selected Product ID from localStorage:", JSON.parse(product));
-    setProduct(JSON.parse(product));
+    const storedProduct = localStorage.getItem("selectedProduct");
+    if (!storedProduct) return;
+
+    setProduct(JSON.parse(storedProduct));
+
     const storedProducts = localStorage.getItem("allProducts");
     if (storedProducts) {
       setAllProducts(JSON.parse(storedProducts));
     }
-    if (!product) return;
-    // You can add further logic here if needed
-  }, []);
+  }, [location.key]);
   return (
     <>
     <Navbar />
@@ -131,11 +132,23 @@ const Details = () => {
 
         {/* Similar Products */}
         {(() => {
-          const similarProducts = allProducts.filter(
-            (item) =>
-              item.genericName === product.genericName &&
-              item.brandName !== product.brandName
-          );
+          const similarProducts = allProducts.filter((item) => {
+            if (!item.genericName || !product.genericName) return false;
+
+            const currentGenerics = Array.isArray(product.genericName)
+              ? product.genericName.map((g) => g.toLowerCase().trim())
+              : [product.genericName.toLowerCase().trim()];
+
+            const itemGenerics = Array.isArray(item.genericName)
+              ? item.genericName.map((g) => g.toLowerCase().trim())
+              : [item.genericName.toLowerCase().trim()];
+
+            const hasCommonGeneric = itemGenerics.some((g) =>
+              currentGenerics.includes(g)
+            );
+
+            return hasCommonGeneric && item.brandName !== product.brandName;
+          });
           return similarProducts.length > 0 && (
             <div className="mt-16">
               <h2 className="text-xl font-semibold mb-6">Similar Products</h2>
@@ -144,7 +157,11 @@ const Details = () => {
                 {similarProducts.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-lg transition"
+                    onClick={() => {
+                      localStorage.setItem("selectedProduct", JSON.stringify(item));
+                      navigate("/details");
+                    }}
+                    className="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-lg transition cursor-pointer"
                   >
                     <img
                       src={item.image || medicine1}

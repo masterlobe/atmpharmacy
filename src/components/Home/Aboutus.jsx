@@ -1,8 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import colorlogo from '../../assets/images/colorlogo.png'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const Aboutus = () => {
+  const Navigate = useNavigate()
   return (
     <>
       {/* Quote Section */}
@@ -56,7 +58,7 @@ const Aboutus = () => {
                 and regulatory compliance.
               </p>
 
-              <button className="bg-cyan-100 text-black px-6 py-3 rounded-full text-sm font-medium hover:bg-cyan-200 transition">
+              <button className="bg-cyan-100 text-black px-6 py-3 rounded-full text-sm font-medium hover:bg-cyan-200 transition" onClick={()=>{Navigate('/about')}}>
                 Learn More
               </button>
             </motion.div>

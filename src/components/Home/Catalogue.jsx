@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'
 import img1 from '../../assets/images/catalogue/1.png'
 import img2 from '../../assets/images/catalogue/2.png'
@@ -6,6 +7,7 @@ import img3 from '../../assets/images/catalogue/3.png'
 import img4 from '../../assets/images/catalogue/4.png'
 
 const Catalogue = () => {
+  const navigate = useNavigate();
   return (
     <section className="w-full bg-white py-32">
       {/* Heading */}
@@ -128,7 +130,10 @@ const Catalogue = () => {
         viewport={{ once: true }}
         className="mt-4 text-center"
       >
-        <button className="bg-indigo-700 hover:bg-indigo-800 text-white px-10 py-4 rounded-full text-lg transition">
+        <button
+          className="bg-indigo-700 hover:bg-indigo-800 text-white px-10 py-4 rounded-full text-lg transition"
+          onClick={() => navigate("/catalogue")}
+        >
           View Our Catalogue
         </button>
       </motion.div>

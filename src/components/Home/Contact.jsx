@@ -8,25 +8,55 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      !formData.firstName.trim() ||
+      !formData.lastName.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      alert("Please fill in all fields before submitting.");
+      return;
+    }
 
-    const subject = encodeURIComponent("New Contact Enquiry");
-    const body = encodeURIComponent(`
-First Name: ${formData.firstName}
-Last Name: ${formData.lastName}
-Email: ${formData.email}
+    setLoading(true);
 
-Message:
-${formData.message}
-    `);
+    try {
+      const res = await fetch("http://localhost:5500/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    window.location.href = `mailto:aayushshah12311@gmail.com?subject=${subject}&body=${body}`;
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        alert("Message sent successfully!");
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          message: "",
+        });
+      } else {
+        alert(data.message || "Failed to send message");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <motion.section
@@ -37,7 +67,7 @@ ${formData.message}
       className="w-full bg-white py-32"
     >
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -62,10 +92,10 @@ ${formData.message}
           viewport={{ once: true }}
           className="grid grid-cols-1 lg:grid-cols-2 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.15)] overflow-hidden"
         >
-          
+
           {/* Left Panel */}
           <div className="bg-cyan-100 p-10 flex flex-col gap-6">
-            
+
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -112,7 +142,7 @@ ${formData.message}
           {/* Right Form */}
           <div className="bg-white p-12">
             <form className="space-y-8" onSubmit={handleSubmit}>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <label className="block mb-2 font-medium">First Name</label>
@@ -141,8 +171,7 @@ ${formData.message}
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleChange("email", e.target.value)}
-                  className="w-full rounded-full border px-6 py-3 shadow focus:outline-none"
-                />
+                  className="w-full rounded-full border px-4 sm:px-6 py-3 shadow focus:outline-none break-words" />
               </div>
 
               <div>
@@ -151,17 +180,22 @@ ${formData.message}
                   rows="6"
                   value={formData.message}
                   onChange={(e) => handleChange("message", e.target.value)}
+                  placeholder="Write your message here..."
                   className="w-full rounded-2xl border px-6 py-4 shadow focus:outline-none resize-none"
                 ></textarea>
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: loading ? 1 : 1.05 }}
+                whileTap={{ scale: loading ? 1 : 0.97 }}
                 type="submit"
-                className="bg-green-500 hover:bg-green-600 text-white px-10 py-3 rounded-full text-lg font-medium transition"
+                disabled={loading || !formData.message.trim()}
+                className={`px-10 py-3 rounded-full text-lg font-medium transition ${loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-green-500 hover:bg-green-600 text-white"
+                  }`}
               >
-                Submit
+                {loading ? "Sending..." : "Submit"}
               </motion.button>
 
             </form>

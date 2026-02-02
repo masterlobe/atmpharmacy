@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import Navbar from '../Navbar'
 import video from '../../assets/videoFinal.mp4'
 const Landing = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="landing flex-1 z-0 flex  flex-col lg:flex-row items-center bg-white px-8 sm:px-10 md:px-12 lg:px-16 relative overflow-visible">
+      <div className="landing flex-1 z-0 flex flex-col lg:flex-row items-center bg-white px-8 sm:px-10 md:px-12 lg:px-16 relative overflow-visible">
         {/* Left content */}
         {/* change this to fix position */}
         <div className="w-full lg:w-full z-10 text-center lg:text-left relative translate-y-0 md:translate-y-100 lg:-translate-y-24 flex flex-col items-center lg:items-start">
@@ -25,10 +27,16 @@ const Landing = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6">
-            <button className="px-10 py-4 text-md rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+            <button
+              onClick={() => navigate("/catalogue")}
+              className="px-10 py-4 text-md rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
+            >
               View Catalogue
             </button>
-            <button className="px-10 py-4 text-md rounded-full border border-gray-300 text-gray-800 font-medium hover:bg-gray-100 transition">
+            <button
+              
+              className="px-10 py-4 text-md rounded-full border border-gray-300 text-gray-800 font-medium hover:bg-gray-100 transition"
+            >
               Know More
             </button>
           </div>

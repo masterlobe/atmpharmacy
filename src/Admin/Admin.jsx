@@ -1,16 +1,27 @@
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
+  
   const [composition, setComposition] = useState([]);
   const [uses, setUses] = useState([]);
   const [highlights, setHighlights] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [category, setcategory] = useState([]);
   const [updating, setUpdating] = useState(false);
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
+  const a = sessionStorage.getItem("isAdminLoggedIn");
+  if (a === "true") {
+    // User is an admin
+  } else {
+    // User is not an admin
+    navigate("/admin");
+  }
 
   const [inputs, setInputs] = useState({
     composition: "",
@@ -165,7 +176,7 @@ export default function Admin() {
     formData.append("packaging", form.packaging);
     formData.append("availability", form.availability);
 
-    formData.append("categories", JSON.stringify(categories));
+    formData.append("category", JSON.stringify(category));
     formData.append("composition", JSON.stringify(composition));
     formData.append("uses", JSON.stringify(uses));
     formData.append("highlights", JSON.stringify(highlights));
@@ -192,7 +203,7 @@ export default function Admin() {
       genericType: selects[2]?.value || "",
       availability: selects[3]?.value || "",
 
-      categories,
+      category,
       composition,
       uses,
       highlights,
@@ -268,11 +279,11 @@ export default function Admin() {
       packaging: product.packaging || "",
       availability: product.availability || "In Stock",
 
-      // --- CRITICAL FIX: normalize categories to always be array ---
-      categories: Array.isArray(product.categories)
-        ? product.categories.filter(Boolean)
-        : product.categories
-          ? [product.categories]
+      // Ensure category is never null or undefined, always array
+      category: Array.isArray(product.category)
+        ? product.category
+        : product.category
+          ? [product.category]
           : [],
       composition: Array.isArray(product.composition) ? product.composition : [],
       uses: Array.isArray(product.uses) ? product.uses : [],
@@ -288,10 +299,10 @@ export default function Admin() {
       genericName: product.genericName || "",
       packaging: product.packaging || "",
       availability: product.availability || "In Stock",
-      categories: Array.isArray(product.categories)
-        ? product.categories.filter(Boolean)
-        : product.categories
-          ? [product.categories]
+      category: Array.isArray(product.category)
+        ? product.category.filter(Boolean)
+        : product.category
+          ? [product.category]
           : [],
       composition: Array.isArray(product.composition) ? product.composition : [],
       uses: Array.isArray(product.uses) ? product.uses : [],
@@ -330,7 +341,7 @@ export default function Admin() {
     }
 
     // compare array fields
-    const arrays = ["categories", "composition", "uses", "highlights"];
+    const arrays = ["category", "composition", "uses", "highlights"];
     for (const key of arrays) {
       const a = JSON.stringify(originalEditProduct[key] || []);
       const b = JSON.stringify(editProduct[key] || []);
@@ -353,14 +364,14 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 font-sans">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans">
       <h1 className="text-3xl font-semibold mb-8">Product Admin Panel</h1>
 
       {/* FORM CARD */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-10">
         <h2 className="text-xl font-medium mb-6">Add / Edit Product</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
           <div>
             <label className="block text-sm text-gray-600 mb-1">Brand Name</label>
             <input
@@ -480,7 +491,7 @@ export default function Admin() {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="h-40 w-full rounded-lg object-cover"
+                  className="h-32 sm:h-40 w-full rounded-lg object-cover"
                 />
 
                 <div className="mt-2 flex gap-2">
@@ -508,7 +519,7 @@ export default function Admin() {
         </div>
 
         {/* CATEGORY (MULTI SELECT) */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Category
           </label>
@@ -518,8 +529,8 @@ export default function Admin() {
               value=""
               onChange={(e) => {
                 const value = e.target.value;
-                if (!value || categories.includes(value)) return;
-                setCategories([...categories, value]);
+                if (!value || category.includes(value)) return;
+                setcategory([...category, value]);
               }}
               className="flex-1 rounded-lg border px-3 py-2"
             >
@@ -532,17 +543,17 @@ export default function Admin() {
             </select>
           </div>
 
-          {categories.length > 0 && (
+          {category.length > 0 && (
             <table className="w-full text-sm bg-white rounded-lg overflow-hidden">
               <tbody>
-                {categories.map((cat, index) => (
+                {category.map((cat, index) => (
                   <tr key={index} className="border-t">
                     <td className="px-3 py-2">{cat}</td>
                     <td className="px-3 py-2 text-right">
                       <button
                         type="button"
                         onClick={() =>
-                          setCategories(categories.filter((_, i) => i !== index))
+                          setcategory(category.filter((_, i) => i !== index))
                         }
                         className="text-red-500 hover:underline"
                       >
@@ -557,7 +568,7 @@ export default function Admin() {
         </div>
 
         {/* MULTI VALUE SECTIONS */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           {renderMultiInput("Composition", "composition", composition, setComposition)}
           {renderMultiInput("Uses", "uses", uses, setUses)}
           {renderMultiInput("Highlights", "highlights", highlights, setHighlights)}
@@ -598,7 +609,7 @@ export default function Admin() {
                 packaging: "",
                 availability: "In Stock"
               });
-              setCategories([]);
+              setcategory([]);
               setComposition([]);
               setUses([]);
               setHighlights([]);
@@ -609,7 +620,7 @@ export default function Admin() {
               alert("Server error");
             }
           }}
-          className="mt-8 rounded-lg bg-[#4F7D73] px-6 py-2 text-white hover:bg-[#41685F]"
+          className="mt-8 w-full sm:w-auto rounded-lg bg-[#4F7D73] px-6 py-2 text-white hover:bg-[#41685F]"
         >
           Save Product
         </button>
@@ -623,47 +634,47 @@ export default function Admin() {
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="bg-gray-50 text-gray-600">
-                <th className="px-4 py-3 text-left">Brand</th>
-                <th className="px-4 py-3 text-left">Generic</th>
-                <th className="px-4 py-3 text-left">Form</th>
-                <th className="px-4 py-3 text-left">Availability</th>
-                <th className="px-4 py-3 text-left">Actions</th>
+                <th className="px-3 sm:px-4 py-3 text-left whitespace-nowrap">Brand</th>
+                <th className="px-3 sm:px-4 py-3 text-left whitespace-nowrap">Generic</th>
+                <th className="px-3 sm:px-4 py-3 text-left whitespace-nowrap">Form</th>
+                <th className="px-3 sm:px-4 py-3 text-left whitespace-nowrap">Availability</th>
+                <th className="px-3 sm:px-4 py-3 text-left whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="px-4 py-6 text-center">
+                  <td colSpan="5" className="px-3 sm:px-4 py-6 text-center whitespace-nowrap">
                     Loading products...
                   </td>
                 </tr>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-4 py-6 text-center">
+                  <td colSpan="5" className="px-3 sm:px-4 py-6 text-center whitespace-nowrap">
                     No products found
                   </td>
                 </tr>
               ) : (
                 products.map((product) => (
                   <tr key={product._id} className="border-t">
-                    <td className="px-4 py-3 font-medium">
+                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap font-medium">
                       {product.brandName}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
                       {product.genericName}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
                       {product.formType}
                     </td>
                     <td
-                      className={`px-4 py-3 font-medium ${product.availability === "In Stock"
+                      className={`px-3 sm:px-4 py-3 whitespace-nowrap font-medium ${product.availability === "In Stock"
                         ? "text-green-600"
                         : "text-red-500"
                         }`}
                     >
                       {product.availability}
                     </td>
-                    <td className="px-4 py-3 space-x-2">
+                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap space-x-2">
                       <button
                         onClick={() => handleEdit(product)}
                         className="rounded bg-yellow-400 px-3 py-1"
@@ -687,7 +698,7 @@ export default function Admin() {
       {/* EDIT MODAL */}
       {showEditModal && editProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl p-6 relative">
+          <div className="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl p-4 sm:p-6 relative">
             {updating && (
               <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70">
                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4F7D73] border-t-transparent"></div>
@@ -706,7 +717,7 @@ export default function Admin() {
             <h2 className="text-2xl font-semibold mb-6">Edit Product</h2>
 
             {/* BASIC INFO */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">Brand Name</label>
                 <input
@@ -800,60 +811,65 @@ export default function Admin() {
             </div>
 
             {/* CATEGORY */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Category
               </label>
               <div className="flex gap-2 mb-3">
+                {console.log(editProduct)}
                 <select
                   value=""
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (!value || editProduct.categories?.includes(value)) return;
-                    updateEditField("categories", [
-                      ...(editProduct.categories || []),
-                      value
-                    ]);
+                    if (!value) return;
+
+                    const current = Array.isArray(editProduct.category)
+                      ? editProduct.category
+                      : [];
+
+                    if (current.includes(value)) return;
+
+                    updateEditField("category", [...current, value]);
                   }}
                   className="flex-1 rounded-lg border px-3 py-2"
                 >
                   <option value="">Select Category</option>
                   <option
                     value="Women’s Health"
-                    disabled={editProduct.categories?.includes("Women’s Health")}
+                    disabled={editProduct.category?.includes("Women’s Health")}
                   >
                     Women’s Health
                   </option>
                   <option
                     value="Bone & Joint Care"
-                    disabled={editProduct.categories?.includes("Bone & Joint Care")}
+                    disabled={editProduct.category?.includes("Bone & Joint Care")}
                   >
                     Bone & Joint Care
                   </option>
                   <option
                     value="Cardio & Metabolic Support"
-                    disabled={editProduct.categories?.includes("Cardio & Metabolic Support")}
+                    disabled={editProduct.category?.includes("Cardio & Metabolic Support")}
                   >
                     Cardio & Metabolic Support
                   </option>
                   <option
                     value="Gut Health"
-                    disabled={editProduct.categories?.includes("Gut Health")}
+                    disabled={editProduct.category?.includes("Gut Health")}
                   >
                     Gut Health
                   </option>
                   <option
                     value="General Wellness"
-                    disabled={editProduct.categories?.includes("General Wellness")}
+                    disabled={editProduct.category?.includes("General Wellness")}
                   >
                     General Wellness
                   </option>
                 </select>
               </div>
-              {editProduct.categories?.length > 0 && (
+              {editProduct.category?.length > 0 && (
                 <table className="w-full text-sm bg-white rounded-lg overflow-hidden">
                   <tbody>
-                    {editProduct.categories.map((cat, index) => (
+                    {editProduct.category.map((cat, index) => (
                       <tr key={index} className="border-t">
                         <td className="px-3 py-2 font-medium text-[#4F7D73]">
                           {cat}
@@ -863,8 +879,8 @@ export default function Admin() {
                             type="button"
                             onClick={() =>
                               updateEditField(
-                                "categories",
-                                editProduct.categories.filter((_, i) => i !== index)
+                                "category",
+                                editProduct.category.filter((_, i) => i !== index)
                               )
                             }
                             className="text-red-500 hover:underline"
@@ -880,7 +896,7 @@ export default function Admin() {
             </div>
 
             {/* MULTI VALUES */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
               {renderMultiInput(
                 "Composition",
                 "composition",
@@ -945,7 +961,7 @@ export default function Admin() {
               )}
             </div>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={() => {
                   setShowEditModal(false);
@@ -977,7 +993,10 @@ export default function Admin() {
                     formData.append("packaging", editProduct.packaging);
                     formData.append("availability", editProduct.availability);
 
-                    formData.append("categories", JSON.stringify(editProduct.categories));
+                    const safeCategory = Array.isArray(editProduct.category)
+                      ? editProduct.category
+                      : [];
+                    formData.append("category", JSON.stringify(safeCategory));
                     formData.append("composition", JSON.stringify(editProduct.composition));
                     formData.append("uses", JSON.stringify(editProduct.uses));
                     formData.append("highlights", JSON.stringify(editProduct.highlights));
@@ -1014,7 +1033,7 @@ export default function Admin() {
               setUpdating(false);
 }
                 }}
-              className="rounded-lg bg-[#4F7D73] px-6 py-2 text-white hover:bg-[#41685F]"
+              className="w-full sm:w-auto rounded-lg bg-[#4F7D73] px-6 py-2 text-white hover:bg-[#41685F]"
               >
               Update Product
             </button>

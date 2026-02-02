@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Link } from "react-router-dom";
 import ig from '../../assets/images/Socials/ig.png'
 import fb from '../../assets/images/Socials/fb.png'
 import x from '../../assets/images/Socials/x.png'
@@ -35,15 +36,11 @@ const Footer = () => {
           </h3>
 
           <p className="text-gray-700 mb-6 leading-relaxed w-full lg:w-[50%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud
+            Reliable pharmaceutical and nutraceutical distribution built on trust, quality, and long-term partnerships.
           </p>
 
           <p className="text-gray-700 mb-8 leading-relaxed w-full lg:w-[50%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam
+            Supporting healthcare delivery through consistent supply, responsible practices, and quality-oriented pharmaceutical solutions.
           </p>
 
           
@@ -61,28 +58,28 @@ const Footer = () => {
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="underline cursor-pointer"
             >
-              Home
+              <Link to="/">Home</Link>
             </motion.li>
             <motion.li
               whileHover={{ x: 6 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="underline cursor-pointer"
             >
-              About us
+              <Link to="/about">About us</Link>
             </motion.li>
             <motion.li
               whileHover={{ x: 6 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="underline cursor-pointer"
             >
-              Catalogue
+              <Link to="/catalogue">Catalogue</Link>
             </motion.li>
             <motion.li
               whileHover={{ x: 6 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="underline cursor-pointer"
             >
-              Contact Us
+              <Link to="/contact">Contact Us</Link>
             </motion.li>
           </ul>
         </div>
@@ -94,43 +91,66 @@ const Footer = () => {
               whileHover={{ scale: 1.2 }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <img
-                src={ig}
-                alt="atm pharmacy logo"
-                className="w-6"
-              />
+              <a
+                href="https://www.instagram.com/nepalonlinepharmacy/?hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={ig}
+                  alt="ATM Pharmacy Instagram"
+                  className="w-6"
+                />
+              </a>
             </motion.span>
             <motion.span
               whileHover={{ scale: 1.2 }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <img
-                src={fb}
-                alt="atm pharmacy logo"
-                className="w-4"
-              />
+              <a
+                href="https://www.instagram.com/nepalonlinepharmacy/?hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={fb}
+                  alt="ATM Pharmacy Facebook"
+                  className="w-4"
+                />
+              </a>
             </motion.span>
             <motion.span
               whileHover={{ scale: 1.2 }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <img
-                src={x}
-                alt="atm pharmacy logo"
-                className="w-7"
-              />
+              <a
+                href="https://x.com/YOUR_HANDLE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={x}
+                  alt="ATM Pharmacy X"
+                  className="w-7"
+                />
+              </a>
             </motion.span>
             <motion.span
               whileHover={{ scale: 1.2 }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
-              <img
-                src={yt}
-                alt="atm pharmacy logo"
-                className="w-7"
-              />
+              <a
+                href="https://youtube.com/@YOUR_CHANNEL"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={yt}
+                  alt="ATM Pharmacy YouTube"
+                  className="w-7"
+                />
+              </a>
             </motion.span>
-            
           </div>
     </motion.footer>
   )
