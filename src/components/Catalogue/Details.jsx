@@ -66,7 +66,7 @@ const Details = () => {
           <img
             src={product.image || medicine1}
             alt="Absolute-M"
-            className="w-full max-w-sm mx-auto"
+            className="w-full max-w-[300px] mx-auto"
           />
 
           <div>
