@@ -188,7 +188,22 @@ export default function Admin() {
     return formData;
   };
 
- 
+ const validateProduct = () => {
+  if (!form.brandName.trim()) return "Brand name is required";
+  if (!form.productType) return "Product type is required";
+  if (!form.formType) return "Form type is required";
+  if (!form.genericType) return "Generic type is required";
+  if (!form.genericName.trim()) return "Generic name is required";
+  if (!form.packaging.trim()) return "Packaging is required";
+  if (!form.availability) return "Availability is required";
+
+  if (!category.length) return "At least one category is required";
+  if (!composition.length) return "At least one composition is required";
+  if (!uses.length) return "At least one use is required";
+  if (!highlights.length) return "At least one highlight is required";
+
+  return null; // ✅ valid
+};
 
   const fetchProducts = async () => {
     try {
@@ -553,6 +568,11 @@ export default function Admin() {
         <button
           onClick={async () => {
             try {
+              const error = validateProduct();
+  if (error) {
+    alert(error);
+    return;
+  }
               const formData = buildFormData();
 
               console.log("📦 Sending FormData:");
