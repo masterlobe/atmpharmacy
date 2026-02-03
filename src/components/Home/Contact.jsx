@@ -9,9 +9,21 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success", // success | error
+    message: "",
+  });
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const showToast = (type, message) => {
+    setToast({ show: true, type, message });
+    setTimeout(() => {
+      setToast({ show: false, type: "", message: "" });
+    }, 3000);
   };
 
   const handleSubmit = async (e) => {
@@ -22,7 +34,7 @@ const Contact = () => {
       !formData.email.trim() ||
       !formData.message.trim()
     ) {
-      alert("Please fill in all fields before submitting.");
+      showToast("error", "Please fill in all fields before submitting.");
       return;
     }
 
@@ -40,7 +52,7 @@ const Contact = () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert("Message sent successfully!");
+        showToast("success", "Message sent successfully!");
 
         setFormData({
           firstName: "",
@@ -49,15 +61,31 @@ const Contact = () => {
           message: "",
         });
       } else {
-        alert(data.message || "Failed to send message");
+        showToast("error", data.message || "Failed to send message");
       }
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      showToast("error", "Server error. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
+
+  const Toast = () =>
+    toast.show ? (
+      <motion.div
+        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+        className={`fixed top-6 right-6 z-50 px-6 py-4 rounded-xl shadow-lg text-white
+          ${toast.type === "success" ? "bg-green-500" : "bg-red-500"}
+        `}
+      >
+        <span className="font-medium">{toast.message}</span>
+      </motion.div>
+    ) : null;
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 60 }}
@@ -66,6 +94,7 @@ const Contact = () => {
       viewport={{ once: true }}
       className="w-full bg-white py-32"
     >
+      <Toast />
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Heading */}

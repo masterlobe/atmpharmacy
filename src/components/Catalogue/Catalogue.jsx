@@ -7,6 +7,8 @@ const Catalogue = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProductType, setSelectedProductType] = useState(null);
+  const [showHealthArea, setShowHealthArea] = useState(false);
+  const [showProductType, setShowProductType] = useState(false);
 
 
 
@@ -98,11 +100,32 @@ const Catalogue = () => {
         <div className="mt-6 space-y-6">
 
           {/* Health Area */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase">
+          <div className="bg-gray-50 rounded-2xl p-4 shadow-sm">
+            <button
+              onClick={() => setShowHealthArea(!showHealthArea)}
+              className="w-full flex md:hidden items-center justify-between text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase"
+            >
+              Filter by Health Area
+              <svg
+                className={`h-5 w-5 transition-transform duration-200 ${
+                  showHealthArea ? "rotate-180" : "rotate-0"
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <h3 className="hidden md:block text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase">
               Filter by Health Area
             </h3>
-            <div className="flex flex-wrap gap-4">
+            <div
+              className={`flex flex-wrap gap-4 overflow-hidden transition-all duration-300 ease-out
+              ${showHealthArea ? "max-h-[500px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"}
+              md:max-h-none md:opacity-100 md:translate-y-0 md:flex`}
+            >
               {[
                 "All",
                 "Women’s Health",
@@ -120,7 +143,7 @@ const Catalogue = () => {
                       setSelectedCategory(selectedCategory === cat ? null : cat);
                     }
                   }}
-                  className={`px-6 py-3 rounded-xl shadow-md border text-base transition whitespace-nowrap ${
+                  className={`px-6 py-3 rounded-xl shadow-md border text-base transition-all duration-200 active:scale-95 hover:-translate-y-0.5 whitespace-nowrap ${
                     (cat === "All" && !selectedCategory) ||
                     selectedCategory === cat
                       ? "bg-green-500 text-white border-green-500"
@@ -134,11 +157,32 @@ const Catalogue = () => {
           </div>
 
           {/* Product Type */}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase">
+          <div className="bg-gray-50 rounded-2xl p-4 shadow-sm">
+            <button
+              onClick={() => setShowProductType(!showProductType)}
+              className="w-full flex md:hidden items-center justify-between text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase"
+            >
+              Filter by Product Type
+              <svg
+                className={`h-5 w-5 transition-transform duration-200 ${
+                  showProductType ? "rotate-180" : "rotate-0"
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <h3 className="hidden md:block text-sm font-semibold text-gray-500 mb-3 tracking-wide uppercase">
               Filter by Product Type
             </h3>
-            <div className="flex flex-wrap gap-4">
+            <div
+              className={`flex flex-wrap gap-4 overflow-hidden transition-all duration-300 ease-out
+              ${showProductType ? "max-h-[300px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"}
+              md:max-h-none md:opacity-100 md:translate-y-0 md:flex`}
+            >
               {[
                 "All",
                 "Nutraceuticals & Supplements",
@@ -156,7 +200,7 @@ const Catalogue = () => {
                       );
                     }
                   }}
-                  className={`px-6 py-3 rounded-xl shadow-md border text-base transition whitespace-nowrap ${
+                  className={`px-6 py-3 rounded-xl shadow-md border text-base transition-all duration-200 active:scale-95 hover:-translate-y-0.5 whitespace-nowrap ${
                     (type === "All" && !selectedProductType) ||
                     selectedProductType === type
                       ? "bg-green-500 text-white border-green-500"

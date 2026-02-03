@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'
 import img1 from '../../assets/images/catalogue/1.png'
@@ -8,6 +8,32 @@ import img4 from '../../assets/images/catalogue/4.png'
 
 const Catalogue = () => {
   const navigate = useNavigate();
+  const catalogueItems = useMemo(() => ([
+    {
+      title: "Absolute - M",
+      type: "Tablets",
+      img: img1,
+      alt: "Absolute M Tablets",
+    },
+    {
+      title: "Absolute - F",
+      type: "Tablets",
+      img: img2,
+      alt: "Absolute F Tablets",
+    },
+    {
+      title: "Quinol 300",
+      type: "Tablets",
+      img: img3,
+      alt: "Quinol 300 Tablets",
+    },
+    {
+      title: "Absolute - F",
+      type: "Tablets",
+      img: img4,
+      alt: "Absolute F Tablets",
+    },
+  ]), []);
   return (
     <section className="w-full bg-white py-32">
       {/* Heading */}
@@ -42,77 +68,25 @@ const Catalogue = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 items-end">
           
-          {/* Card 1 */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ y: -10, scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-            viewport={{ once: true }}
-            className="bg-white border rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-8 text-center cursor-pointer"
-          >
-            <h4 className="text-xl font-semibold mb-1">Absolute - M</h4>
-            <p className="text-base mb-6">Tablets</p>
-            <img
-              src={img1}
-              alt="Absolute M Tablets"
-              className="mx-auto h-44 object-contain"
-            />
-          </motion.div>
-
-          {/* Card 2 */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ y: -10, scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-            viewport={{ once: true }}
-            className="bg-white border rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-8 text-center cursor-pointer"
-          >
-            <h4 className="text-xl font-semibold mb-1">Absolute - F</h4>
-            <p className="text-base mb-6">Tablets</p>
-            <img
-              src={img2}
-              alt="Absolute F Tablets"
-              className="mx-auto h-44 object-contain"
-            />
-          </motion.div>
-
-          {/* Card 3 */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ y: -10, scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-            viewport={{ once: true }}
-            className="bg-white border rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-8 text-center cursor-pointer"
-          >
-            <h4 className="text-xl font-semibold mb-1">Quinol 300</h4>
-            <p className="text-base mb-6">Tablets</p>
-            <img
-              src={img3}
-              alt="Quinol 300 Tablets"
-              className="mx-auto h-44 object-contain"
-            />
-          </motion.div>
-
-          {/* Card 4 */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ y: -10, scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-            viewport={{ once: true }}
-            className="bg-white border rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-8 text-center relative cursor-pointer"
-          >
-            <h4 className="text-xl font-semibold mb-1">Absolute - F</h4>
-            <p className="text-base mb-6">Tablets</p>
-            <img
-              src={img4}
-              alt="Absolute F Tablets"
-              className="mx-auto h-44 object-contain"
-            />
-          </motion.div>
+          {catalogueItems.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{ y: -10, scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              viewport={{ once: true }}
+              className="bg-white border rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-8 text-center cursor-pointer"
+            >
+              <h4 className="text-xl font-semibold mb-1">{item.title}</h4>
+              <p className="text-base mb-6">{item.type}</p>
+              <img
+                src={item.img}
+                alt={item.alt}
+                className="mx-auto h-44 object-contain"
+              />
+            </motion.div>
+          ))}
 
         </div>
         <div className="flex justify-end mt-6">
