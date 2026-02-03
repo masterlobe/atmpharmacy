@@ -12,6 +12,11 @@ const Details = () => {
   const [product, setProduct] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   useEffect(() => {
+    window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth" // or "smooth"
+  });
     const storedProduct = localStorage.getItem("selectedProduct");
     if (!storedProduct) return;
 

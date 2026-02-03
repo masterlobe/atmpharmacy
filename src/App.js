@@ -7,10 +7,12 @@ import Catalogue from './page/Catalogue'
 import Details from './components/Catalogue/Details'
 import Admin from './Admin/Login'
 import AdminPage from './Admin/Admin'
+import ScrollToTop from './ScrollToTop'
 
 const App = () => {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
