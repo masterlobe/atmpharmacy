@@ -7,7 +7,6 @@ const Aboutus = () => {
   const Navigate = useNavigate()
   return (
     <>
-      {/* Quote Section */}
       <section className="w-full bg-white py-36">
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 40 }}
