@@ -113,7 +113,7 @@ const Contact = () => {
               className="bg-white rounded-xl px-6 py-4 shadow flex items-center gap-4"
             >
               <span className="text-xl">✉️</span>
-              <span className="text-black font-medium">
+              <span className="text-black font-medium break-all sm:break-normal">
                 aayushshah12311@gmail.com
               </span>
             </motion.div>
