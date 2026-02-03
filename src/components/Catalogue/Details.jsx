@@ -9,24 +9,40 @@ const Details = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showPopup, setShowPopup] = useState(false);
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const [allProducts, setAllProducts] = useState([]);
-  useEffect(() => {
-    window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: "smooth" // or "smooth"
-  });
-    const storedProduct = localStorage.getItem("selectedProduct");
-    if (!storedProduct) return;
 
-    setProduct(JSON.parse(storedProduct));
+  useEffect(() => {
+    // keep page scrolled to top when opening details
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+    const storedProduct = localStorage.getItem("selectedProduct");
+    if (storedProduct) {
+      try {
+        const parsed = JSON.parse(storedProduct);
+        setProduct(parsed || {});
+      } catch (err) {
+        console.warn("Failed to parse selectedProduct from localStorage:", err);
+        setProduct({});
+      }
+    }
 
     const storedProducts = localStorage.getItem("allProducts");
     if (storedProducts) {
-      setAllProducts(JSON.parse(storedProducts));
+      try {
+        setAllProducts(JSON.parse(storedProducts));
+      } catch (err) {
+        console.warn("Failed to parse allProducts from localStorage:", err);
+      }
     }
   }, [location.key]);
+
+  // Normalize category to an array so JSX can call join safely
+  const categories = Array.isArray(product?.category)
+    ? product.category
+    : product?.category
+    ? [product.category]
+    : [];
   return (
     <>
     <Navbar />
@@ -55,10 +71,10 @@ const Details = () => {
 
           <div>
             <h1 className="text-3xl font-bold mb-2">{product.brandName}</h1>
-            <p className="text-gray-600 mb-4">{product.formType} · {(product.category || []).join(", ")}</p>
+            <p className="text-gray-600 mb-4">{product.formType} · {categories.join(", ") || "N/A"}</p>
 
             <p className="mb-2">
-              <span className="font-semibold">Category:</span> {(product.category || []).join(", ")}
+              <span className="font-semibold">Category:</span> {categories.join(", ") || "N/A"}
             </p>
             <p>
               <span className="font-semibold">Availability:</span>
