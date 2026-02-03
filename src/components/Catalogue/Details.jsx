@@ -11,12 +11,16 @@ const Details = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [product, setProduct] = useState({});
   const [allProducts, setAllProducts] = useState([]);
+  const [currentProduct, setCurrentProduct] = useState({});
 
   useEffect(() => {
     // keep page scrolled to top when opening details
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     const storedProduct = localStorage.getItem("selectedProduct");
+
+    console.log(storedProduct)
+
     if (storedProduct) {
       try {
         const parsed = JSON.parse(storedProduct);

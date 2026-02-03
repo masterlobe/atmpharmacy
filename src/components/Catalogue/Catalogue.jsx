@@ -8,6 +8,9 @@ const Catalogue = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProductType, setSelectedProductType] = useState(null);
 
+
+
+
   const fetchProducts = async () => {
     try {
       const res = await fetch("https://atmpharmacybackend.onrender.com/product/all");
